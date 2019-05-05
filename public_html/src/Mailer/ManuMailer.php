@@ -1,0 +1,236 @@
+<?php
+namespace App\Mailer;
+
+use Cake\Mailer\Mailer;
+use Cake\ORM\TableRegistry;
+use Cake\Core\Configure;
+use Cake\Utility\Text;
+use Cake\Routing\Router;
+use Cake\Mailer\Email;
+
+/**
+ * Manu mailer.
+ */
+class ManuMailer extends Mailer
+{
+
+    /**
+     * Mailer's name.
+     *
+     * @var string
+     */
+    static public $name = 'Manu';
+    
+    /*
+     * AdminUserManager.Adminusers and UserManager.Users welcome email
+     */
+
+    public function welcome($user)
+    {
+		
+        $sourse = $user->source();
+        $this->UserTokens = TableRegistry::get('UserTokens');
+        $uid = Text::uuid();
+        $token_type = "account_confirmation";
+        if($sourse=="UserManager.Users"){
+                $user_type = "users";
+                $fullUrl = Router::url(['controller' => 'Users', 'action' => 'verifyaccount','plugin'=>'UserManager','prefix'=>false,$uid], true);
+        }else{
+                $user_type = "admin_user";
+                $fullUrl = Router::url(['controller' => 'AdminUsers', 'action' => 'verifyaccount','plugin'=>'AdminUserManager',$uid], true);
+        }
+        
+	$replacement = [
+            '##USER_NAME##' => $user->name,
+            '##verify_n_password##' => $fullUrl,
+            '##USER_INFO##' => ""
+        ];
+        $messageTemplate = $this->buildMessage('welcome-email', $replacement);
+        $subject = $messageTemplate['subject'];
+        $message = $messageTemplate['message'];
+        $_usertoken = $this->UserTokens->newEntity();
+        $_usertoken->user_id = $user->id;
+        $_usertoken->user_type = $user_type;
+        $_usertoken->token_type = $token_type;
+        $_usertoken->token = $uid;
+        $this->UserTokens->save($_usertoken);
+        $config['to'] = $user->email;
+        $config['subject'] = $subject;
+        $this->sendEmails($config, $message);
+    }
+    
+    
+      /*
+     * AdminUserManager.Adminusers and UserManager.Users welcome email
+     */
+
+    public function collabe($itemArr)
+    {
+	$from = Configure::read('Setting.FROM_EMAIL') != null ? Configure::read('Setting.FROM_EMAIL') : "testsupport@collabthem.com";
+        $to = Configure::read('Setting.ADMIN_EMAIL') != null ? Configure::read('Setting.ADMIN_EMAIL') : $from;
+        
+	$replacement = [
+            '##ARTIST_ONE##' => $itemArr['article_one'],
+            '##ARTIST_TWO##' => $itemArr['article_two'],
+        ];
+        $messageTemplate = $this->buildMessage('collabe-request', $replacement);
+        $subject = $messageTemplate['subject'];
+        $message = $messageTemplate['message'];
+        
+        $config['to'] = $to;
+        $config['subject'] = $subject;
+        $this->sendEmails($config, $message);
+    }
+   
+    
+    /*
+     * Admin forgot password email
+     */
+
+    public function adminForgot($user)
+    {
+		$uid = Text::uuid();
+        $UserTokens = TableRegistry::get('UserTokens');
+        $replacement = [
+            '##USER_NAME##' => $user->name,
+            '##USER_RESET_LINK' => Router::url(['controller' => 'AdminUsers', 'action' => 'passwordreset','plugin'=>'AdminUserManager',$uid], true),
+        ];
+
+        $messageTemplate = $this->buildMessage('forgot-password-email', $replacement);
+		//pr($messageTemplate);die;
+        $subject = $messageTemplate['subject'];
+        $message = $messageTemplate['message'];
+
+        $_usertoken = $UserTokens->newEntity(['user_id'=>$user->id, 'user_type'=> 'admin_user','token_type'=> 'forgot','token'=> $uid]);
+        if ($UserTokens->save($_usertoken)) {
+		    $config['to'] = $user->email;
+            $config['subject'] = $subject;
+			$this->sendEmails($config, $message);
+        }
+    }
+    
+    /*
+     * Admin forgot password email
+     */
+
+    public function forgot($user)
+    {
+        $uid = Text::uuid();
+        $UserTokens = TableRegistry::get('UserTokens');
+        $fullUrl = Router::url('/', true);
+       
+        $replacement = [
+            '##USER_NAME##' => $user->name,
+            '##USER_RESET_LINK' => $fullUrl . "users/passwordreset/" . $uid
+        ];
+
+        $messageTemplate = $this->buildMessage('forgot-password-email', $replacement);
+
+        $subject = $messageTemplate['subject'];
+        $message = $messageTemplate['message'];
+
+        $_usertoken = $UserTokens->newEntity();
+        $_usertoken->user_id = $user->id;
+        $_usertoken->user_type = "website_users";
+        $_usertoken->token_type = "forgot";
+        $_usertoken->token = $uid;
+        if ($UserTokens->save($_usertoken)) {
+            $config['to'] = $user->email;
+            $config['subject'] = $subject;
+            $this->sendEmails($config, $message);
+        }
+    }
+   
+    /*
+     * contact us email
+     */
+
+    public function contactUs($contact) {
+        $from = Configure::read('Setting.FROM_EMAIL') != null ? Configure::read('Setting.FROM_EMAIL') : "testsupport@collabthem.com";
+        $to = Configure::read('Setting.ADMIN_EMAIL') != null ? Configure::read('Setting.ADMIN_EMAIL') : $from;
+
+        $replacement = [
+            '##USER_NAME##' => $contact->first_name . ' ' . $contact->last_name,
+            '##USER_EMAIL##' => $contact->email,
+            '##USERE_MOBILE##' => $contact->mobile,
+            '##MESSAGE##' => $contact->message,
+        ];
+
+        $messageTemplate = $this->buildMessage('contact-us', $replacement);
+        $subject = $messageTemplate['subject'];
+        $message = $messageTemplate['message'];
+
+        $config['to'] = $to;
+        $config['subject'] = $subject;
+        $this->sendEmails($config, $message);
+    }
+
+    public function sendEmails($config, $bodyContent, $template = "default", $layout = 'default', $file = '', $format = "html")
+    {
+        $from_admin = Configure::read('Setting.FROM_EMAIL') != null ? Configure::read('Setting.FROM_EMAIL') : "testsupport@domain.com";
+        $from = isset($config['from']) ? $config['from'] : $from_admin;
+        $this->setEmailConfig();
+        $smtp_allow = Configure::read('Setting.SMTP_ALLOW');
+        if (Configure::read('Setting.SMTP_ALLOW') != null) {
+            $configuration = 'newconfiguration';
+        } else {
+            $configuration = 'default';
+        }
+        $this
+            ->setTransport($configuration)
+            ->setSender($from, Configure::read('Setting.SYSTEM_APPLICATION_NAME'))
+            ->setFrom([$from => Configure::read('Setting.SYSTEM_APPLICATION_NAME')]);
+        $this->setTo($config['to']);
+        if (!empty($config['cc'])) {
+            $this->setCc($config['cc']);
+        }
+        if (!empty($config['bcc'])) {
+            $this->setBcc($config['bcc']);
+        }
+        
+        if (!empty($config['subject'])) {
+            $this->setSubject($config['subject']);
+        }
+        if (file_exists($file) && $file != '') {
+            $this->setAttachments($file);
+        }
+        $this->emailFormat($format)->setViewVars(['content' => $bodyContent])->setTemplate($template)->setLayout($layout)->dropTransport('newconfiguration');
+    }
+
+    public function setEmailConfig()
+    {
+        Email::setConfigTransport('newconfiguration', [
+            'host' => Configure::read('Setting.SMTP_EMAIL_HOST') != null ? Configure::read('Setting.SMTP_EMAIL_HOST') : "",
+            'port' => Configure::read('Setting.SMTP_PORT') != null ? Configure::read('Setting.SMTP_PORT') : 25,
+            'username' => Configure::read('Setting.SMTP_USERNAME') != null ? Configure::read('Setting.SMTP_USERNAME') : '',
+            'password' => Configure::read('Setting.SMTP_PASSWORD') != null ? Configure::read('Setting.SMTP_PASSWORD') : '',
+            'className' => 'Smtp',
+            'tls' => Configure::read('Setting.SMTP_TLS') != null ?  Configure::read('Setting.SMTP_TLS') : false, //'tls' => true,  useing whne then you use gmail
+            'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
+        ]);
+    }
+
+    public function buildMessage($email_type, $replacement = null)
+    {
+	
+        $email_template = TableRegistry::get('EmailManager.EmailTemplates');
+        $query = $email_template->find('hook', ['slug' => $email_type]);
+        $template = $query->first();
+		$fullUrl = Router::url('/', true);
+		 $default_replacement = [
+            '##SYSTEM_APPLICATION_NAME##' => Configure::read('Setting.SYSTEM_APPLICATION_NAME'),
+            '##BASE_URL##' => $fullUrl,
+            '##SYSTEM_LOGO##' => $fullUrl . 'img/' . Configure::read('Setting.MAIN_LOGO'),
+            '##COPYRIGHT_TEXT##' => "Copyright " . Configure::read('Setting.SYSTEM_APPLICATION_NAME') . " " . date("Y"),
+        ];
+        $message_body = str_replace('##EMAIL_CONTENT##', $template->description, $template->email_preference->layout_html);
+        $message_body = str_replace('##EMAIL_FOOTER##', $template->footer_text, $message_body);
+        $message_body = strtr($message_body, $default_replacement);
+        $message_body = strtr($message_body, $replacement);
+        $subject = strtr($template->subject, $default_replacement);
+        $subject = strtr($subject, $replacement);
+        $message = ['message' => $message_body, 'subject' => $subject];
+        return $message;
+    }
+    
+}

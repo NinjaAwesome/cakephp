@@ -1,0 +1,395 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 23, 2018, 6:50:20 PM
+    Author     : admin
+*/
+
+/*.paginator{
+    display: none
+}*/
+
+textarea{
+    resize: none;
+}
+.red{
+    color: red;
+}
+
+.share-social li {
+    display: inline-block;
+    padding: 0 8px;
+}
+.color_white{
+    /* color: #FFF !important; */
+    cursor: pointer;
+}
+.not_available{
+    font-size: 25px;
+}
+
+.flash-masg-sec .container
+{
+    padding: 0 40px;
+}
+
+.flash-masg-sec .message {
+	background: rgba(0,106,109,0.3);
+	padding: 15px;
+	text-align: center;
+	font-size: 22px;
+	color: #fff;
+	margin-bottom: 30px;
+}
+
+/*.mid-text-items .pro-textarea-item input{
+    font-size: 45px;
+    padding: 0 20px;
+    height: 60px;
+    line-height: 60px;
+    border: 1px solid #ddd;
+    width: 75%;
+    text-align: center;
+    -webkit-box-shadow: 0 0 3px 0 rgba(0,0,0,0.1);
+    box-shadow: 0 0 3px 0 rgba(0,0,0,0.1);
+    background: rgba(255,255,255,0.2);
+}*/
+.mid-text-items .pro-textarea-item input{
+    /* font-size: 45px;
+    height: 50px;
+    line-height: 55px; */
+    /* font-size: 55px; */
+    /* height: 72px;
+    line-height: 72px; */
+    /* border: 0;
+    width: 75%;
+    text-align: center;
+    -webkit-box-shadow: 0;
+    box-shadow: 0;
+    background: transparent; */
+}
+.edit-product-cal .prot-textarea-2{
+    margin-top: 10px;
+}
+#collabe_response .pro-textarea-item {
+    padding: 0 35px;
+    margin: 8px 0;
+}
+.pro-textarea-item {
+    /* font-size: 45px;
+    line-height: 55px; */
+    /* line-height: 50px; */}
+
+.light-autocomplete-list ul {
+	width: 100%;
+	background-color: #FFF;
+	top: 0px;
+}
+.light-autocomplete-element {
+    height: 25px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #222;
+    line-height: 20px;
+} 
+.light-autocomplete-element.selected {
+    border: 1px solid #ccc;
+    background-color: #ddd;
+}
+
+.light-autocomplete-list {
+
+    position: absolute;
+    width: 75%;
+    left: 60px;
+
+}
+.match-data{
+    position: absolute;
+    background-color: #fff;
+    font-size: 16px;
+    width: 75%;
+    left: 61px;
+}
+.match-data ul{
+    list-style: none;
+}
+.match-data ul li a{
+    cursor: pointer;
+    display: inline-block;
+    width: 100%;
+}
+/* .ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus {
+    background: #ff8a00;
+    border: none;
+    color:#000;
+    border-radius:0;
+    font-weight: normal;
+} */
+.accept-col{
+    float: none;
+}
+
+.pro-textarea-item input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #c4c4c4;
+}
+.pro-textarea-item input::-moz-placeholder { /* Firefox 19+ */
+  color: #c4c4c4;
+}
+.pro-textarea-item input:-ms-input-placeholder { /* IE 10+ */
+  color: #c4c4c4;
+}
+.pro-textarea-item input:-moz-placeholder { /* Firefox 18- */
+  color: #c4c4c4;
+}
+
+/* .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {
+    border: 1px solid #015e59;
+    background: #07615d;
+    font-weight: normal;
+    color: #ffffff;
+} */
+.mid-text-items .pro-textarea-item input:focus {
+    outline-width: 0;
+}
+
+
+
+
+
+
+
+.browse-btn-col {
+	-ms-transition: all ease .5s;
+	-o-transition: all ease .5s;
+	-webkit-transition: all ease .5s;
+	transition: all ease .5s;
+	background: #112D34;
+}
+
+.slide-btn {
+    
+	background:url(../images/body_bg_02.jpg) no-repeat bottom center !important;
+	width: 100%;
+     -ms-transition: all ease 1s;
+	-o-transition: all ease 1s;
+	-webkit-transition: all ease 1s;
+	transition: all ease 1s;
+}
+.browse-btn-arrow
+{
+	cursor:pointer;
+}
+
+
+
+
+
+.my-popup .modal-content {
+	background-color: #171c20;
+}
+
+
+.my-popup .modal-header {
+	background: none !important;
+	padding: 0;
+	text-align: center;
+	padding: 12px 0;
+	border:0px;
+}
+.my-popup .modal-header h4
+{
+	color:#7d8588;
+	font-family:'Conv_AvenirLTStd-Book_0';
+	font-weight:400;
+	letter-spacing:1px;
+	font-size:24px;
+	text-align:center;
+	width:100%;
+}
+
+.my-popup .modal-header .close {
+	background: #fff;
+	color: #000;
+	position: absolute;
+	right: -15px;
+	top: -15px;
+}
+
+.my-popup .modal-header .close:hover
+{
+	background:#112D34;
+	color:#fff;
+} 
+
+
+.my-popup .modal-content .conversation-list
+{
+	text-align:center;
+}
+
+.my-popup .modal-content .conversation-list br
+{
+	display:none;
+}
+
+.my-popup .modal-content .conversation-list input[type="text"]
+{
+	-webkit-border-radius:10px;
+	border-radius:10px;
+	line-height:42px;
+	height:42px;
+	background:#19262c;
+	color:#8f9ea3;
+	text-align:left;
+	width:100%;
+	border:0px;
+	margin-bottom:20px;
+	margin-top:20px;
+	padding:0 15px;
+}
+
+
+
+
+.conversation-list .collbe-link button
+{
+	border:2px solid #8f9ea3;
+	-webkit-border-radius:10px;
+	border-radius:10px;
+	line-height:42px;
+	height:42px;
+	text-align:center;
+	padding:0 20px;
+	display:inline-block;
+	color:#8f9ea3;
+	background:#081a1e;
+	margin-bottom:20px;
+	cursor:pointer;
+}
+.conversation-list .topSocial ul li {
+	margin-left: 5px;
+}
+
+.conversation-list .topSocial li a {
+	display: block;
+	width: 50px;
+	height: 50px;
+	border: 3px solid #a4abaf;
+	line-height: 49px;
+	text-align: center;
+	font-size: 17px;
+}
+
+
+.conversation-list .product-logo {
+	position: static;
+	width: 100%;
+	text-align: right;
+}
+
+
+
+.conversation-list .product-logo img {
+	max-width: 133px;
+	margin-bottom: 10px;
+}
+
+
+
+.sidenav_collbe {
+    font-family: 'Conv_AvenirLTStd-Book_0';
+    font-size: 15px;
+    font-weight: 400;
+    color: #5e5e5e;
+    background: url(../images/body_bg_02.jpg) no-repeat bottom center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    background-attachment: fixed;
+}
+
+
+
+.sidenav_collbe {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  overflow-x: hidden;
+  -ms-transition: 1.0s;
+  -o-transition: 1.0s;
+  -webkit-transition: 1.0s;
+  transition: 1.0s;
+  -ms-transform:translateX(100%);
+  -o-transform:translateX(100%);
+  -webkit-transform:translateX(100%);
+  transform:translateX(100%);
+}
+
+
+
+
+.slide-on
+{
+	-ms-transform:translateX(0%);
+	-o-transform:translateX(0%);
+	-webkit-transform:translateX(0%);
+	transform:translateX(0%);
+	-ms-transition: 1.0s;
+	-o-transition: 1.0s;
+	-webkit-transition: 1.0s;
+	transition: 1.0s;
+	height:100%;
+	width:100%;
+	z-index:9999999;
+	overflow-x: hidden;
+}
+
+
+.slide-on .my-popup 
+{
+	background-color: rgba(0,0,0,0.8) !important;
+	
+}
+
+.bbox
+{
+	overflow:visible;
+}
+
+
+.product-textarea-sec {
+    cursor: pointer;
+}
+
+.product-col .pro-heart .music-dark{
+    width: 15%;
+}
+
+ @media (max-width: 575px) {
+
+
+.my-popup .modal-header .close {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+     right: 0px;
+     top: -15px;
+     font-size: 24px;
+
+}
+
+
+ }
